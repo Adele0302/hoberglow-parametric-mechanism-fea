@@ -1,0 +1,13 @@
+# Proprietary or local Rhino assets must never be committed.
+*.3dm
+*.3dmbak
+*.bak
+*.gh
+*.gh~
+*.autosave
+
+# Local caches and exports
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
