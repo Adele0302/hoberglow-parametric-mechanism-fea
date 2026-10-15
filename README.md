@@ -9,14 +9,6 @@ lighting system. This repository demonstrates three connected workflows:
 - a lightweight optical preview and report;
 - a Karamba3D 1/8 cyclic-sector structural proxy with five active elements.
 
-## Design & Research Portfolio
-
-**[View the interactive portfolio on Figma](https://www.figma.com/proto/Bi4Qcumy8768mXM7jljO9i/HoberGlow_Portfolio_Design_Engineering--Copy-?page-id=0%3A1&node-id=2003-2359&viewport=-134%2C677%2C0.16&t=hmoNgT8rTcDYEZRr-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=2003%3A152)**
-
-This portfolio presents selected design and research work, including computational design, parametric modeling, design engineering, and project documentation.
-
-> **Viewing note:** This portfolio is hosted on Figma. The interactive viewer may take a little time to load, particularly when opening the link for the first time. Thank you for your patience.
-
 ## Important intellectual-property notice
 
 > **The original product appearance and production 3D model were purchased by
