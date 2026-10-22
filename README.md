@@ -11,9 +11,9 @@ lighting system. This repository demonstrates three connected workflows:
 
 ## Interactive web study
 
-**[Open the standalone HoberGlow webpage](./index.html)** · [View its source](./index.html)
+**[View the standalone webpage source](./index.html)** · [Public site address (after GitHub Pages is enabled)](https://adele0302.github.io/hoberglow-parametric-mechanism-fea/)
 
-A separate, self-contained HTML experience has been added to this repository. It illustrates the eight-sector scissor-linkage concept with a **pull-cord gesture**, **manual contraction slider**, and **play/pause animation**. It requires no Rhino or Grasshopper installation. To publish it as a public URL, enable GitHub Pages for the \`main\` branch / root directory in repository Settings → Pages.
+A separate, self-contained HTML experience has been added to this repository. It illustrates the eight-sector scissor-linkage concept with a **pull-cord gesture**, **manual contraction slider**, and **play/pause animation**. It requires no Rhino or Grasshopper installation. To publish it as a public URL, enable GitHub Pages for the `main` branch / root directory in repository Settings → Pages.
 
 **Scope and accuracy:** The browser illustration is a simplified, independently drawn motion *schematic*. It is not derived from the proprietary CAD mesh and is not a simulation of the exact product, photometry or structural performance. The **full original 3D viewer is intentionally distributed as a private local-only package** rather than committed to this public repository.
 
@@ -31,7 +31,25 @@ The project is organized around four linked questions: **what changes** (deploym
 | ![Grasshopper workflow](assets/grasshopper-public-workflow.png) | ![Section workflow](assets/section-property-workflow.png) |
 | Input-driven transformations | Lightweight structural study |
 
-The five accompanying editorial renders belong to the visual documentation rather than the downloadable production-CAD source. The webpage includes image slots with fallbacks to these public research screenshots.
+### Editorial image gallery
+
+Five user-provided project renders have been added as **optimized, small-resolution WebP previews** to make the research narrative easier to scan. The full-resolution files remain outside this public repository; these previews are **portfolio documentation**, not licensed CAD source or an offer to reproduce the original company-owned appearance.
+
+| Overall concept | Three-stage motion |
+|:--:|:--:|
+| ![Suspended HoberGlow concept](assets/editorial/overview.webp) | ![Shrink through spread](assets/editorial/motion-states.webp) |
+| Suspended kinetic lighting concept | Shrink → intermediate → spread |
+
+| Light sculpture | Mechanism detail |
+|:--:|:--:|
+| ![Layered kinetic light sculpture](assets/editorial/sculptural-light.webp) | ![Scissor-linkage closeup](assets/editorial/linkage-detail.webp) |
+| Spatial composition and repeated canopies | Articulated scissor members and pin connections |
+
+![Canopy and linkage showing optical modulation](assets/editorial/optical-modulation.webp)
+
+*Layered canopy / optical modulation study.* The relation between geometry and light is illustrated, not asserted as quantitatively measured or photometrically validated.
+
+For a larger editorial layout and hands-on illustration, use the [standalone interactive webpage](./index.html) in a browser or enable GitHub Pages in Settings → Pages.
 
 ## Important intellectual-property notice
 
