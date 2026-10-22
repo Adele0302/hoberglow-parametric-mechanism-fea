@@ -9,6 +9,30 @@ lighting system. This repository demonstrates three connected workflows:
 - a lightweight optical preview and report;
 - a Karamba3D 1/8 cyclic-sector structural proxy with five active elements.
 
+## Interactive web study
+
+**[Open the standalone HoberGlow webpage](./index.html)** · [View its source](./index.html)
+
+A separate, self-contained HTML experience has been added to this repository. It illustrates the eight-sector scissor-linkage concept with a **pull-cord gesture**, **manual contraction slider**, and **play/pause animation**. It requires no Rhino or Grasshopper installation. To publish it as a public URL, enable GitHub Pages for the \`main\` branch / root directory in repository Settings → Pages.
+
+**Scope and accuracy:** The browser illustration is a simplified, independently drawn motion *schematic*. It is not derived from the proprietary CAD mesh and is not a simulation of the exact product, photometry or structural performance. The **full original 3D viewer is intentionally distributed as a private local-only package** rather than committed to this public repository.
+
+### Visual research narrative
+
+The project is organized around four linked questions: **what changes** (deployment states), **how it moves** (radial scissor-linkage mechanism), **what the movement does to light** (hypothesized layering and occlusion), and **how it can be evaluated** (parametric Grasshopper and a reduced structural proxy).
+
+| Motion and states | Mechanism geometry |
+|:--:|:--:|
+| ![Motion study](assets/motion-range.png) | ![Mechanism skeleton](assets/mechanism-skeleton.png) |
+| Conceptual open/closed configurations | Articulated members and their constrained connections |
+
+| Parametric definition | Section properties |
+|:--:|:--:|
+| ![Grasshopper workflow](assets/grasshopper-public-workflow.png) | ![Section workflow](assets/section-property-workflow.png) |
+| Input-driven transformations | Lightweight structural study |
+
+The five accompanying editorial renders belong to the visual documentation rather than the downloadable production-CAD source. The webpage includes image slots with fallbacks to these public research screenshots.
+
 ## Important intellectual-property notice
 
 > **The original product appearance and production 3D model were purchased by
