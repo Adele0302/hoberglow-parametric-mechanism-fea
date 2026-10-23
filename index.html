@@ -1,82 +1,59 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#eeeae3">
-<meta name="description" content="HoberGlow — an interactive study of transformable lighting, scissor-linkage kinematics, optical modulation and structural prototyping by Shuofei Zan.">
-<title>HoberGlow — A Kinetic Light Study | Shuofei Zan</title>
+<!doctype html><html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HoberGlow · Shuofei Zan</title><style>*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#253346;color:#d9e1ed;font:14px Arial,sans-serif}#view{position:fixed;inset:0}canvas{display:block}header{position:fixed;top:25px;left:30px;pointer-events:none}header b{font-size:23px;font-weight:400;letter-spacing:-.6px}header span{margin-left:15px;color:#8e9eb4;font-size:12px}footer{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:18px;padding:12px 20px;background:#172333b3;border-radius:9px}button{border:0;background:transparent;color:inherit;cursor:pointer;font:inherit;min-width:50px}input{width:230px;accent-color:#c7bbab}small{color:#9cacbf;white-space:nowrap}#status{position:fixed;top:48%;width:100%;text-align:center;color:#c6d3e4;pointer-events:none}.record header,.record footer{display:none}</style><body><div id="view"></div><header><b>HoberGlow</b><span>Shuofei Zan</span></header><p id="status">Loading the original model…</p><footer><button id="play" disabled>Play</button><small>Open</small><input id="pull" disabled type="range" min="0" max="1" step=".001" value="0" aria-label="Lamp closure"><small>Closed</small><button id="record">Record</button></footer>
 <style>
-:root{--paper:#efeee9;--ink:#1f2225;--faint:#646761;--hair:#cbc7c0;--brass:#a97d57;--ochre:#d1ae77;--black:#17212a}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,"Helvetica Neue",Arial,sans-serif}a{color:inherit;text-decoration:none}button,input{font:inherit}button{cursor:pointer}::selection{background:#bda383;color:#151b22}.bar{height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;border-bottom:1px solid var(--hair);background:#efeee9ee;position:sticky;top:0;z-index:20;backdrop-filter:blur(15px)}.brand{font-weight:700;letter-spacing:-.035em;font-size:1.15rem}.brand span{font-weight:400;color:#77695b}.bar nav{display:flex;gap:2rem;font-size:.74rem;letter-spacing:.11em;text-transform:uppercase}.bar a:focus-visible,.control button:focus-visible,input:focus-visible{outline:2px solid #a66f38;outline-offset:4px}.intro{display:grid;grid-template-columns:1fr 1fr;min-height:370px;padding:5.5vw 5vw 3vw;gap:4vw;align-items:end}.eyebrow,.mini{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:#a17650}.intro h1{font-family:Georgia,Times,serif;letter-spacing:-.075em;font-size:clamp(5rem,12vw,12rem);font-weight:400;margin:.1em 0 .05em;line-height:.9}.intro p{font-size:clamp(1.05rem,1.55vw,1.4rem);max-width:550px;line-height:1.6;color:#56534e}.intro aside{padding-bottom:.5rem}.intro aside p{max-width:410px;margin-left:auto}.studiolabel{font-size:.72rem;letter-spacing:.15em;color:#8b8178}.studio{margin:0 5vw;background:#18232d;color:#f0ebdf;position:relative;overflow:hidden;min-height:620px}.studio .overlay{position:absolute;top:30px;left:32px;z-index:2;pointer-events:none}.studio .overlay b{font-size:.75rem;letter-spacing:.14em;display:block;font-weight:600}.studio .overlay span{color:#b3aa9e;display:block;margin-top:.6rem;font-size:.76rem}.canvas{min-height:520px;height:58vw;max-height:720px;touch-action:pan-y;display:block;width:100%}.canvas svg{width:100%;height:100%;display:block}.canvas svg circle,.canvas svg line,.canvas svg path,.canvas svg ellipse{transition:opacity .15s}.studio .lab{position:absolute;bottom:110px;right:31px;font-size:.71rem;color:#b4a895;text-align:right;max-width:200px;line-height:1.6}.control{position:absolute;left:0;bottom:0;width:100%;display:flex;align-items:center;gap:23px;padding:27px 32px;border-top:1px solid #ffffff25;background:#131c25cc;backdrop-filter:blur(12px)}.control button{background:#e8dcc9;color:#302519;border:0;padding:13px 21px;font-weight:700;min-width:110px}.control button:hover{background:#fff2db}.slider{flex:1;accent-color:#d3a67b;min-width:80px}.control .value{font-size:.76rem;color:#e7ddd0;min-width:92px;text-align:right}.control .cap{font-size:.7rem;color:#ada69a;letter-spacing:.14em;text-transform:uppercase}.split{display:grid;grid-template-columns:1fr 1fr;gap:5vw;padding:100px 5vw}.split h2,.feature h2{font-family:Georgia,Times,serif;letter-spacing:-.04em;font-size:clamp(2.5rem,5vw,5.5rem);font-weight:400;line-height:1.08;margin:.2em 0 .5em}.split p{color:#514f4a;line-height:1.9;font-size:1.04rem;max-width:640px}.split .note{font-size:.8rem;color:#85817a;max-width:430px}.render{position:relative;min-height:250px;background:#d9d8d4;overflow:hidden}.render img{width:100%;height:100%;object-fit:cover;display:block}.render img[src$="motion-range.png"]{object-fit:contain;padding:6%;background:#dad8d4}.render figcaption{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,#0009);color:white;padding:45px 24px 20px;font-size:.74rem;letter-spacing:.12em;text-transform:uppercase}.gallery{padding:0 5vw 100px}.gallery h2{font-family:Georgia,Times,serif;font-size:clamp(2rem,4vw,4.4rem);font-weight:400;letter-spacing:-.04em}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.tile{grid-column:span 6;margin:0;overflow:hidden}.tile:first-child{grid-column:span 12}.tile img{width:100%;display:block;aspect-ratio:16/9;object-fit:cover;background:#dbd9d2;transition:transform .55s ease}.tile img:hover{transform:scale(1.025)}.tile figcaption{display:flex;justify-content:space-between;gap:20px;padding:14px 0 28px;border-top:1px solid var(--hair)}.tile b{font-family:Georgia,serif;font-size:1.3rem;font-weight:400}.tile span{font-size:.78rem;color:#6d6960;max-width:55%;line-height:1.55;text-align:right}.feature{background:#dcd8d0;padding:105px 5vw;display:grid;grid-template-columns:1fr 1fr;gap:5vw;align-items:center}.feature img{width:100%;height:auto}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:25px;background:#c3b9ad;border:1px solid #c3b9ad}.stats div{padding:24px;background:#e3ded6}.stats b{display:block;font-size:1.5rem;font-weight:500}.stats span{display:block;font-size:.72rem;line-height:1.6;color:#746e67;margin-top:6px}.feature p{line-height:1.85;color:#55504a}.foot{background:#17212a;color:#e7e4d9;padding:75px 5vw 40px}.foot .big{font-family:Georgia,serif;font-size:clamp(3rem,8vw,7rem);letter-spacing:-.065em}.foot p{max-width:680px;line-height:1.7;color:#b7b8b6;font-size:.85rem}.foot a{border-bottom:1px solid #b5a187}.smallprint{border-top:1px solid #ffffff27;margin-top:75px;padding-top:25px;display:flex;gap:24px;justify-content:space-between;color:#8f999e;font-size:.72rem;line-height:1.7}
-@media(max-width:800px){.bar nav{gap:1rem}.bar nav a:nth-child(2){display:none}.intro,.split,.feature{grid-template-columns:1fr}.intro{padding:60px 6vw 30px;gap:0}.intro h1{font-size:clamp(4.9rem,18vw,8rem)}.intro aside p{margin-left:0}.studio{margin:0 3vw;min-height:520px}.canvas{height:480px;min-height:460px}.studio .overlay{top:22px;left:20px}.control{padding:16px;gap:10px}.control button{padding:11px 14px;min-width:67px}.control .cap{display:none}.control .value{min-width:60px}.gallery{padding:0 5vw 55px}.tile,.tile:first-child{grid-column:span 12}.tile figcaption{padding-bottom:20px}.split,.feature{padding:65px 5vw}.smallprint{display:block}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+#entry{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:linear-gradient(0deg,#172537f1 0%,#172537b0 55%,#17253773 100%),url('assets/editorial/overview.webp') center/cover no-repeat;padding:24px}
+#entry .prompt{width:min(550px,90vw);padding:48px 40px;background:#1a2739ed;border:1px solid #8397ad50;box-shadow:0 25px 90px #0005;text-align:center;backdrop-filter:blur(8px)}
+#entry .kicker{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#c5b298;font-weight:600}
+#entry h1{font-size:clamp(38px,8vw,66px);font-weight:400;letter-spacing:-.05em;margin:12px 0}
+#entry p{color:#b9c7d8;line-height:1.7;margin:12px 0 24px}
+#entry .primary{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#dfceb7;color:#253346;padding:15px 24px;min-width:190px;cursor:pointer;font-weight:bold;border:0}
+#entry .primary:hover{background:#f5e9db}
+#entry .small{margin:18px auto 0;font-size:12px;color:#a6b5c4;line-height:1.6;max-width:430px}
+#entry .small a{color:#e1d0b8}
+#entry .alert{color:#f9c9af;font-size:12px;line-height:1.5}
+#entry input{display:none}
+#entry .poster{width:100%;margin:24px 0 10px;max-height:175px;object-fit:contain;opacity:.91}
+#entry .poster-caption{font-size:11px;color:#b6c3d2;letter-spacing:.08em}
+#entry[data-ready="true"]{display:none}
+@media(max-width:600px){#entry .prompt{padding:28px 23px}footer{width:calc(100% - 16px);gap:8px;justify-content:center;bottom:12px}footer input{width:min(35vw,230px)}}
 </style>
-</head>
-<body>
-<header class="bar"><a href="#top" class="brand">HoberGlow <span>/ Research</span></a><nav><a href="#interact">Interactive study</a><a href="#process">Design & process</a><a href="#research">Methods</a><a href="https://github.com/Adele0302/hoberglow-parametric-mechanism-fea">GitHub ↗</a></nav></header>
-<main id="top">
-<section class="intro"><div><span class="eyebrow">Computational design · Kinetic lighting</span><h1>HoberGlow</h1></div><aside><p>A transformable field of light, shaped by a radial scissor-linkage system. From mechanical choreography to parametric analysis.</p><span class="studiolabel">Shuofei Zan · Research portfolio</span></aside></section>
-<section class="studio" id="interact">
- <div class="overlay"><b>01 / INTERACTIVE KINEMATICS</b><span>Pull to transform · Scaled schematic, not the proprietary CAD model</span></div>
- <div class="canvas"><svg id="kinetic" viewBox="0 0 1000 690" role="img" aria-label="Interactive illustration of a radial scissor linkage, canopy petals and pull-cord mechanism"><defs><radialGradient id="soft"><stop stop-color="#c79a60" stop-opacity=".24"/><stop offset="1" stop-color="#c79a60" stop-opacity="0"/></radialGradient><linearGradient id="fabric" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f4f2eb"/><stop offset="1" stop-color="#b7b8b2"/></linearGradient><linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f0d6b1"/><stop offset=".5" stop-color="#98714d"/><stop offset="1" stop-color="#d5ae83"/></linearGradient></defs><rect width="1000" height="690" fill="#18232d"/><ellipse cx="500" cy="330" rx="320" ry="250" fill="url(#soft)"/><g id="petals"></g><g id="members"></g><g id="cables"></g><g id="joints"></g><g id="central"></g><g id="rope" style="cursor:ns-resize"></g></svg></div>
- <div class="lab">Eight repeating sectors<br>Articulated scissor-linkage concept<br>Drag the cord or adjust the slider</div>
- <div class="control"><button id="toggle" type="button" aria-label="Play animation">▶ Play</button><span class="cap">Spread</span><input class="slider" id="closure" type="range" min="0" max="100" value="0" aria-label="Mechanism contraction percentage"><span class="cap">Shrink</span><span class="value" id="reading">0% · Spread</span></div>
-</section>
-<section class="split" id="process"><div><span class="eyebrow">02 / Design intent</span><h2>From motion<br>to atmosphere.</h2><p>HoberGlow investigates how a mechanically constrained structure can become an expressive light object. Its repeated articulated members coordinate a changing canopy, while the suspension and pull-cord interface make the transformation legible to the viewer.</p><p>This page presents the conceptual mechanism and design documentation. It deliberately does not distribute the company's production geometry.</p><p class="note">Project context: initially an industry-sponsored team design project. The later parametric, optical and reduced-order structural research workflows were independently developed by Shuofei Zan.</p></div><figure class="render"><img src="assets/editorial/overview.webp" data-fallback="assets/mechanism-skeleton.png" alt="HoberGlow overview with several suspended kinetic light sculptures"><figcaption>Suspended light · Editorial overview</figcaption></figure></section>
-<section class="gallery"><span class="eyebrow">03 / Project documentation</span><h2>A system in motion.</h2><div class="grid">
-<figure class="tile"><img loading="lazy" src="assets/editorial/motion-states.webp" data-fallback="assets/motion-range.png" alt="Three successive states of HoberGlow: shrinking, intermediate, and spreading"><figcaption><b>01 — Transformation</b><span>Three visual states show the motion from contracted to extended configurations.</span></figcaption></figure>
-<figure class="tile"><img loading="lazy" src="assets/editorial/sculptural-light.webp" data-fallback="assets/motion-range.png" alt="HoberGlow suspended light assemblage and sculptural canopy"><figcaption><b>02 — Light field</b><span>Repeated layered canopies compose a responsive lighting sculpture.</span></figcaption></figure>
-<figure class="tile"><img loading="lazy" src="assets/editorial/linkage-detail.webp" data-fallback="assets/mechanism-skeleton.png" alt="Detailed close-up of the radial scissor-linkage mechanism"><figcaption><b>03 — Linkage design</b><span>Pin connections and repeated articulated elements organize the motion.</span></figcaption></figure>
-<figure class="tile"><img loading="lazy" src="assets/editorial/optical-modulation.webp" data-fallback="assets/section-property-workflow.png" alt="Layered canopy and scissor linkage showing optical modulation"><figcaption><b>04 — Optical modulation</b><span>Relative positions of the two canopy layers change with the deployment state.</span></figcaption></figure>
-</div></section>
-<section class="feature" id="research"><div><span class="eyebrow">04 / Computational investigation</span><h2>Design through<br>constraints.</h2><p>The separately published Grasshopper framework exposes named mechanism inputs and a live optical preview. A five-element Karamba3D structural proxy represents one eighth of the cyclic assembly to explore relative behavior under simplified loading.</p><p>The online interaction above is an explanatory radial mechanism animation, not a validated performance prediction. Optical statements remain design hypotheses unless supported by measured photometric results.</p><div class="stats"><div><b>8</b><span>Radial sectors in schematic representation</span></div><div><b>1/8</b><span>Cyclic sector used in structural proxy</span></div><div><b>5</b><span>Elements in public Karamba3D proxy</span></div></div></div><figure><img loading="lazy" src="assets/grasshopper-public-workflow.png" alt="Sanitized Grasshopper parametric mechanism workflow" style="width:100%;height:auto"><figcaption class="mini" style="margin-top:12px">Parametric workflow / Rhino + Grasshopper</figcaption></figure></section>
-</main>
-<footer class="foot"><span class="eyebrow">HoberGlow / Shuofei Zan</span><div class="big">Form follows motion.</div><p>Explore the <a href="https://github.com/Adele0302/hoberglow-parametric-mechanism-fea/tree/main/grasshopper">public Grasshopper definition</a>, accompanying documentation and research limitations in the <a href="https://github.com/Adele0302/hoberglow-parametric-mechanism-fea">repository</a>. Product appearance and production CAD assets remain excluded from the public source license.</p><div class="smallprint"><span>© 2026 Shuofei Zan. Author-owned research workflow under repository license.</span><span>Illustrative mechanism study · Not for fabrication or certification.</span></div></footer>
+<div id="entry">
+ <div class="prompt">
+  <div class="kicker">HoberGlow / Original 3D motion viewer</div>
+  <h1>HoberGlow</h1>
+  <p>This is the original viewer and calibrated transformation code from Research-Motion-Studio, not a redrawn mechanism.</p>
+  <img class="poster" src="assets/editorial/motion-states.webp" alt="HoberGlow original concept showing fully open, mid and closed motion states">
+  <div class="poster-caption">REAL PROJECT IMAGES · SPREAD → SHRINK</div>
+  <p>The 3D geometry belongs to the private project, so it is loaded from your own device and never uploaded.</p>
+  <label class="primary" for="private-model">Open private 3D model ↗</label>
+  <input type="file" id="private-model" accept=".js,text/javascript" aria-label="Choose the private model-data.js file">
+  <div class="small">Choose <strong>model-data.js</strong> from the private HoberGlow viewer ZIP. The original camera, Play/Pause, closure slider, cable linkage, and Record mode will appear. No files leave your browser. <a href="https://github.com/Adele0302/hoberglow-parametric-mechanism-fea">Back to research documentation ↗</a></div>
+  <p id="public-error" class="alert" role="alert" aria-live="polite"></p>
+ </div>
+</div>
 <script>
-'use strict';
-const ns='http://www.w3.org/2000/svg',groups={};for(const id of ['petals','members','cables','joints','central','rope'])groups[id]=document.getElementById(id);
-const input=document.getElementById('closure'),reading=document.getElementById('reading'),play=document.getElementById('toggle');
-let state=0,playing=false,last=0,sign=1;
-function node(tag,attrs,group){const e=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,v);groups[group].appendChild(e);return e}
-const polar=(r,t,y=0)=>[500+Math.cos(t)*r,322+Math.sin(t)*r*.35+y];
-function moveTo(p){return p[0].toFixed(2)+','+p[1].toFixed(2)}
-function draw(p){
- for(const e of Object.values(groups))e.replaceChildren();
- const rad=205-76*p,canopy=rad+100-34*p,first=polar(0,0,-104),angleOffset=-Math.PI/2;
- const ring=node('ellipse',{cx:500,cy:322,rx:rad,ry:rad*.35,fill:'none',stroke:'#d8bd93','stroke-width':3,opacity:.65},'members');
- const backPetals=[],frontPetals=[];
- for(let k=0;k<8;k++){
-  const a=angleOffset+k*Math.PI/4,aa=a+.03,bb=a+Math.PI/4-.03;
-  const out1=polar(canopy,aa,-95-14*(1-p)),out2=polar(canopy,bb,-95-14*(1-p)),m=polar(canopy+30, a+Math.PI/8,-100-50*(1-p));
-  const inner1=polar(rad*.39,aa,-90),inner2=polar(rad*.39,bb,-90);
-  const d='M'+moveTo(inner1)+' Q'+moveTo(out1)+' '+moveTo(m)+' Q'+moveTo(out2)+' '+moveTo(inner2)+' Q'+moveTo(polar(25,a+Math.PI/8,-82))+' '+moveTo(inner1);
-  const el=node('path',{d,fill:'url(#fabric)',stroke:'#ffffff','stroke-width':1.2,opacity:0.93},'petals');
-  if(Math.sin(a)<0)groups.petals.insertBefore(el,groups.petals.firstChild);
- }
- for(let k=0;k<8;k++){
-  const t=angleOffset+k*Math.PI/4,center=polar(rad,t,8),left=polar(rad*.77,t-.18,9),right=polar(rad*.77,t+.18,9),outside=polar(rad+41-15*p,t,3);
-  const cross1=polar(rad*.63,t+.17,12),cross2=polar(rad*.63,t-.17,12);
-  for(const [a,b,thick,opacity] of [[left,outside,6,.95],[right,outside,6,.95],[cross1,center,5,.9],[cross2,center,5,.9]])node('line',{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:'url(#metal)','stroke-linecap':'round','stroke-width':thick,opacity},'members');
-  for(const q of [left,right,outside,center])node('circle',{cx:q[0],cy:q[1],r:4.2,fill:'#e9cba5',stroke:'#816047','stroke-width':1.4},'joints');
-  const cab=polar(rad+8,t,-15),tip=polar(0,t,170-30*p);
-  node('line',{x1:cab[0],y1:cab[1],x2:tip[0],y2:tip[1],stroke:'#adb5ae',opacity:.75,'stroke-width':1.15},'cables');
- }
- node('ellipse',{cx:500,cy:318,rx:rad*.44,ry:rad*.155,stroke:'#e1c8a4','stroke-width':2,fill:'none'},'central');
- node('line',{x1:500,y1:28,x2:500,y2:300,stroke:'#c7b09a','stroke-width':2},'central');
- const knotY=492-30*p;node('circle',{cx:500,cy:knotY,r:6.5,fill:'#ccb190',stroke:'#927654','stroke-width':2},'rope');
- node('line',{x1:500,y1:knotY,x2:500,y2:knotY+68+p*48,stroke:'#c6b19e','stroke-width':2.4},'rope');
- node('circle',{cx:500,cy:knotY+68+p*48,r:8,fill:'#b99970',stroke:'#f2d7b1','stroke-width':2},'rope');
- node('line',{x1:490,y1:knotY+90+p*48,x2:510,y2:knotY+90+p*48,stroke:'#8b989b','stroke-width':1},'rope');
- reading.textContent=Math.round(p*100)+'% · '+(p<.02?'Spread':p>.98?'Shrink':'In motion');
- input.value=Math.round(p*100);
-}
-function apply(v){state=Math.max(0,Math.min(1,v));draw(state)}
-play.onclick=()=>{playing=!playing;play.textContent=playing?'Ⅱ Pause':'▶ Play';if(playing)last=0};
-input.oninput=e=>{playing=false;play.textContent='▶ Play';apply(Number(e.target.value)/100)};
-const svg=document.getElementById('kinetic');let dragging=false,startY=0,startState=0;
-function down(e){if(e.target.closest('#rope')){dragging=true;startY=e.clientY;startState=state;svg.setPointerCapture?.(e.pointerId);playing=false;play.textContent='▶ Play';e.preventDefault()}}
-svg.addEventListener('pointerdown',down);svg.addEventListener('pointermove',e=>{if(dragging)apply(startState+(e.clientY-startY)/240)});for(const ev of ['pointerup','pointercancel'])svg.addEventListener(ev,()=>dragging=false);
-function tick(t){if(playing){if(last){let dt=Math.min((t-last)/1000,.05);state+=sign*dt*.16;if(state>=1){state=1;sign=-1}else if(state<=0){state=0;sign=1}draw(state)}last=t}else last=0;requestAnimationFrame(tick)}
-document.querySelectorAll('img[data-fallback]').forEach(img=>img.addEventListener('error',()=>{if(!img.dataset.failed){img.dataset.failed='1';img.src=img.dataset.fallback}}));
-apply(0);requestAnimationFrame(tick);
-</script>
-</body></html>
+(()=>{const file=document.getElementById('private-model'),entry=document.getElementById('entry'),error=document.getElementById('public-error'),status=document.getElementById('status');
+file.addEventListener('change',async()=>{
+ const picked=file.files?.[0];if(!picked)return;
+ try{
+   error.textContent='';
+   if(!/model-data\.js$/i.test(picked.name))throw Error('Please select the model-data.js from your private viewer.');
+   status.textContent='Reading original model locally…';
+   const s=await picked.text();
+   const prefix='window.HOBER_MODEL="';
+   if(!s.startsWith(prefix))throw Error('The selected model file is not in the expected HoberGlow format.');
+   const end=s.lastIndexOf('";');
+   if(end<0||end+2<s.trimEnd().length)throw Error('The model data appears incomplete.');
+   const body=s.slice(prefix.length,end);
+   if(body.length<1000000)throw Error('The original 3D model data is missing or incomplete.');
+   window.HOBER_MODEL=body;
+   status.textContent='Initializing original 3D transformation engine…';
+   const engine=document.createElement('script');
+   engine.src='hoberglow/app.js';
+   engine.onload=()=>{const watch=setInterval(()=>{if(window.__LAMP__?.loaded){clearInterval(watch);entry.dataset.ready='true';window.HOBER_MODEL=null;status.textContent=''}},250);
+   setTimeout(()=>{clearInterval(watch);if(!window.__LAMP__?.loaded)error.textContent='The original viewer could not initialize. Check WebGL support and browser console.'},40000)};
+   engine.onerror=()=>{error.textContent='Could not load original HoberGlow application code.'};
+   document.body.appendChild(engine);
+ }catch(ex){error.textContent=ex.message;status.textContent='';}
+});
+})();
+</script></body></html>
