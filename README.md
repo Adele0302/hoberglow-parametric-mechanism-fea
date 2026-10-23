@@ -20,9 +20,9 @@ The source application retains:
 - calibrated radial scissor-linkage motion, petal closure and associated cable updates;
 - interactive OrbitControls camera, **Play / Pause**, **Open ↔ Closed** slider and **Record** interface.
 
-**Geometry / IP restriction:** The public repository does **not** contain the company-owned `model-data.js` (~72 MiB) or the production CAD model. The page has a **local-only file picker** for this exact file: choose `model-data.js` from your private HoberGlow ZIP to load the complete original 3D viewer. It is read on your device and never uploaded to a server. Without that file, the public page displays the authentic editorial preview but cannot run the full 3D transformation. In particular, it would be inaccurate to claim that the public site automatically loads the original model.
+**Deployment status:** The original HoberGlow HTML and animation engine are deployed, now with a touch-friendly iPad interface and a visible **“仅供非商业研究与作品集展示 · 禁止商业用途 / Non-commercial use only”** notice. The page now automatically looks for TWO optimized original-model files, `hoberglow/model.part-00.bin` and `hoberglow/model.part-01.bin`. **As long as these two large model assets have not yet been committed, the public page continues to offer local selection of `model-data.js` as a fallback, rather than falsely claiming the 3D has loaded.** The files together comprise 29,505,017 bytes and retain the original mesh hierarchy and vertex positions. The project owner confirmed public non-commercial portfolio display authorization; that permission does not authorize third-party commercial reuse.
 
-A complete local, offline version with `index.html`, `app.js` and `model-data.js` is delivered separately to the project owner. The public app runtime itself does not grant permission to redistribute company-owned geometry.
+A separate complete web-package ZIP contains the ready-to-deploy tablet-responsive site, original motion runtime, five project renders and the two optimized model binary parts, each smaller than GitHub's browser-upload size limit. The public app runtime itself does not grant permission for commercial redistribution of the model.
 
 ### Visual research narrative — actual project images
 
