@@ -9,47 +9,36 @@ lighting system. This repository demonstrates three connected workflows:
 - a lightweight optical preview and report;
 - a Karamba3D 1/8 cyclic-sector structural proxy with five active elements.
 
-## Interactive web study
+## HoberGlow — original interactive web viewer
 
-**[View the standalone webpage source](./index.html)** · [Public site address (after GitHub Pages is enabled)](https://adele0302.github.io/hoberglow-parametric-mechanism-fea/)
+**[Open the HoberGlow webpage](https://adele0302.github.io/hoberglow-parametric-mechanism-fea/)** · **[Inspect the original viewer runtime](hoberglow/app.js)**
 
-A separate, self-contained HTML experience has been added to this repository. It illustrates the eight-sector scissor-linkage concept with a **pull-cord gesture**, **manual contraction slider**, and **play/pause animation**. It requires no Rhino or Grasshopper installation. To publish it as a public URL, enable GitHub Pages for the `main` branch / root directory in repository Settings → Pages.
+This page now uses the **actual HoberGlow HTML interface and the unchanged bundled motion application from `Research-Motion-Studio.zip`**. The earlier hand-drawn SVG approximation has been removed.
 
-**Scope and accuracy:** The browser illustration is a simplified, independently drawn motion *schematic*. It is not derived from the proprietary CAD mesh and is not a simulation of the exact product, photometry or structural performance. The **full original 3D viewer is intentionally distributed as a private local-only package** rather than committed to this public repository.
+The source application retains:
+- the original model meshes and their individual transformation bindings once the geometry is loaded;
+- calibrated radial scissor-linkage motion, petal closure and associated cable updates;
+- interactive OrbitControls camera, **Play / Pause**, **Open ↔ Closed** slider and **Record** interface.
 
-### Visual research narrative
+**Geometry / IP restriction:** The public repository does **not** contain the company-owned `model-data.js` (~72 MiB) or the production CAD model. The page has a **local-only file picker** for this exact file: choose `model-data.js` from your private HoberGlow ZIP to load the complete original 3D viewer. It is read on your device and never uploaded to a server. Without that file, the public page displays the authentic editorial preview but cannot run the full 3D transformation. In particular, it would be inaccurate to claim that the public site automatically loads the original model.
 
-The project is organized around four linked questions: **what changes** (deployment states), **how it moves** (radial scissor-linkage mechanism), **what the movement does to light** (hypothesized layering and occlusion), and **how it can be evaluated** (parametric Grasshopper and a reduced structural proxy).
+A complete local, offline version with `index.html`, `app.js` and `model-data.js` is delivered separately to the project owner. The public app runtime itself does not grant permission to redistribute company-owned geometry.
 
-| Motion and states | Mechanism geometry |
+### Visual research narrative — actual project images
+
+| Concept overview | Three original motion states |
 |:--:|:--:|
-| ![Motion study](assets/motion-range.png) | ![Mechanism skeleton](assets/mechanism-skeleton.png) |
-| Conceptual open/closed configurations | Articulated members and their constrained connections |
+| ![HoberGlow concept render](assets/editorial/overview.webp) | ![HoberGlow shrink and spread states](assets/editorial/motion-states.webp) |
+| Kinetic suspended lighting sculpture | Shrink → intermediate → spread |
 
-| Parametric definition | Section properties |
+| Suspended canopies | Scissor-linkage detail |
 |:--:|:--:|
-| ![Grasshopper workflow](assets/grasshopper-public-workflow.png) | ![Section workflow](assets/section-property-workflow.png) |
-| Input-driven transformations | Lightweight structural study |
+| ![Suspended HoberGlow render](assets/editorial/sculptural-light.webp) | ![Actual HoberGlow articulated linkage](assets/editorial/linkage-detail.webp) |
+| Layered luminaires and composition | Original articulated frame and pin joints |
 
-### Editorial image gallery
+![HoberGlow canopy and light modulation](assets/editorial/optical-modulation.webp)
 
-Five user-provided project renders have been added as **optimized, small-resolution WebP previews** to make the research narrative easier to scan. The full-resolution files remain outside this public repository; these previews are **portfolio documentation**, not licensed CAD source or an offer to reproduce the original company-owned appearance.
-
-| Overall concept | Three-stage motion |
-|:--:|:--:|
-| ![Suspended HoberGlow concept](assets/editorial/overview.webp) | ![Shrink through spread](assets/editorial/motion-states.webp) |
-| Suspended kinetic lighting concept | Shrink → intermediate → spread |
-
-| Light sculpture | Mechanism detail |
-|:--:|:--:|
-| ![Layered kinetic light sculpture](assets/editorial/sculptural-light.webp) | ![Scissor-linkage closeup](assets/editorial/linkage-detail.webp) |
-| Spatial composition and repeated canopies | Articulated scissor members and pin connections |
-
-![Canopy and linkage showing optical modulation](assets/editorial/optical-modulation.webp)
-
-*Layered canopy / optical modulation study.* The relation between geometry and light is illustrated, not asserted as quantitatively measured or photometrically validated.
-
-For a larger editorial layout and hands-on illustration, use the [standalone interactive webpage](./index.html) in a browser or enable GitHub Pages in Settings → Pages.
+*Optical modulation illustration.* These renders are visual documentation, not published CAD source or calibrated photometric measurements. The motion solver is geometry-calibrated; it is not collision or load simulation.
 
 ## Important intellectual-property notice
 
@@ -69,8 +58,9 @@ rights to the company's proprietary product design or production model.
 
 - `grasshopper/HoberGlow_Public_Framework.ghx` — English-labelled public
   definition with proprietary geometry references cleared.
-- `assets/` — documentation screenshots only; these are not downloadable CAD
-  assets and cannot be reconstructed into the production model.
+- `hoberglow/app.js` — the unmodified bundled Three.js original transformation runtime; proprietary model data is **not** included.
+- `index.html` — the original page interface with a local-only private model picker.
+- `assets/` — public research screenshots and five optimized editorial renders, **not** production CAD.
 - `LICENSE.md` — limited permission for the author-owned framework and an
   explicit exclusion for company-owned assets.
 
