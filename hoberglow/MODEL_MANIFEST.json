@@ -1,0 +1,24 @@
+{
+  "model": "HoberGlow original GLB (gzip-wrapped)",
+  "source": "Research-Motion-Studio/hoberglow/model-data.js",
+  "method": "Lossless byte slicing; no changes to vertices, meshes or rig binding",
+  "combined_gzip_size": 56697373,
+  "combined_gzip_sha256": "38b5852e3006c788985137238bb325b1ce7237d09eed4b6babab681aa10c0f93",
+  "parts": [
+    {
+      "path": "hoberglow/model.part-00.bin",
+      "bytes": 18899124,
+      "sha256": "353a2374d2a013867c10088f49b76654698c54472da43b1bb855f2db96e3dc1c"
+    },
+    {
+      "path": "hoberglow/model.part-01.bin",
+      "bytes": 18899124,
+      "sha256": "73ad63c961aff68c9c6d8775d0791dcf557464fa1bb11f2c384ac95ab47d4bb1"
+    },
+    {
+      "path": "hoberglow/model.part-02.bin",
+      "bytes": 18899125,
+      "sha256": "bb1289376e8bd251a4a01e6597cd824bba5b8907b3ffb835c4d6942633e77d03"
+    }
+  ]
+}
