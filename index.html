@@ -33,6 +33,7 @@ button:hover,button:focus-visible{background:#ffffff28;outline:1px solid #e0cdb3
 .fallback[hidden]{display:none}.fallback-panel{width:min(500px,100%);padding:34px 30px;border:1px solid #ffffff34;border-radius:15px;background:#172333ee;text-align:center;box-shadow:0 20px 65px #08111db8}
 .fallback-panel h2{font-size:clamp(34px,6vw,56px);font-weight:500;margin:2px 0 16px;letter-spacing:-.04em}.fallback-panel p{font-size:13px;line-height:1.8;color:#c7d3e3}
 .fallback-panel img{display:block;width:100%;aspect-ratio:16/8;object-fit:contain;margin:15px auto}.fallback-panel label{display:inline-block;padding:13px 18px;background:#dfceb7;color:#192434;cursor:pointer;border-radius:7px;font-weight:700;font-size:14px;margin-top:9px}.fallback-panel input{position:absolute;width:1px;height:1px;opacity:0}.fallback-panel small{display:block;margin-top:17px;color:#a2b1c4;line-height:1.6}
+.fallback-panel button{display:inline-block;margin-top:9px;min-height:46px;background:#dfceb7;color:#192434;font-size:14px;padding:13px 20px}.fallback-panel button:hover,.fallback-panel button:focus-visible{background:#eadcc9;outline:2px solid #fff9}
 @media(max-width:740px){.fallback-panel{padding:22px 18px}.fallback-panel img{max-height:125px}}
 </style>
 </head>
@@ -47,13 +48,12 @@ button:hover,button:focus-visible{background:#ffffff28;outline:1px solid #e0cdb3
 </footer>
 <div class="touch-tip" id="tip">Drag to rotate · Pinch to zoom · Slide to open / close</div>
 <div class="noncommercial">© 2026 Shuofei Zan · 仅供非商业研究与作品集展示 · 禁止商业用途 / Non-commercial use only.</div>
-<section id="fallback" class="fallback" hidden aria-label="Local model option">
+<section id="fallback" class="fallback" hidden aria-label="Automatic 3D model loading problem">
 <div class="fallback-panel"><h2>HoberGlow</h2>
-<p id="fallback-info">The original 3D model has not been deployed to this public site yet.</p>
+<p id="fallback-info" role="alert">The original 3D model could not be downloaded. Please retry.</p>
 <img src="./assets/editorial/motion-states.webp" alt="HoberGlow original opening and closing sequence">
-<label for="local-model">Open original 3D model locally</label>
-<input type="file" id="local-model" accept=".js,text/javascript" aria-label="Choose private model-data.js">
-<small>The local file stays on your device; it is never uploaded. Commercial use is prohibited.</small>
+<button id="retry-model" type="button">Retry automatic model loading</button>
+<small>No file upload, login or company authorization is required to view the public interactive model.</small>
 </div></section>
 <script>
 (async()=>{
@@ -61,28 +61,52 @@ button:hover,button:focus-visible{background:#ffffff28;outline:1px solid #e0cdb3
  const controls=['play','pull'].map(x=>document.getElementById(x));
  let engineStarted=false;
  function startEngine(){if(engineStarted)return;engineStarted=true;const js=document.createElement('script');js.src='./hoberglow/app.js';js.onerror=()=>showError('3D viewer code failed to load.');js.onload=()=>{let checks=0;const poll=setInterval(()=>{if(window.__LAMP__?.loaded){clearInterval(poll);window.HOBER_GZIP=null;window.HOBER_MODEL=null;status.textContent='';document.getElementById('fallback').hidden=true;if(matchMedia('(pointer:coarse)').matches)setTimeout(()=>document.getElementById('tip').style.opacity='0',6500)}else if(++checks>120){clearInterval(poll);if(status.textContent.includes('Building'))showError('3D model initialization timed out. Try closing other tabs and reloading.') }},500)};document.body.append(js)}
- document.getElementById('local-model').addEventListener('change',async(ev)=>{const file=ev.target.files?.[0];if(!file)return;try{if(!/^model-data\.js$/i.test(file.name))throw Error('Choose model-data.js from the original private viewer.');status.textContent='Loading original 3D geometry locally…';const raw=await file.text();const start='window.HOBER_MODEL="',end=raw.lastIndexOf('";');if(!raw.startsWith(start)||end<0)throw Error('Unexpected model-data.js format.');window.HOBER_MODEL=raw.slice(start.length,end);if(window.HOBER_MODEL.length<1000000)throw Error('Original model is incomplete.');document.getElementById('fallback').hidden=true;status.textContent='Building the original 3D mechanism…';startEngine()}catch(err){document.getElementById('fallback-info').textContent=err.message;status.textContent=''}});
+ document.getElementById('retry-model').addEventListener('click',()=>location.reload());
  const showError=(message)=>{status.textContent=message;status.style.pointerEvents='auto'};
  if(!window.WebGLRenderingContext){showError('This browser does not support WebGL. Please open in Safari or Chrome with hardware acceleration.');return}
  try{
-  // Original lossless gzip-wrapped GLB, split into three GitHub-friendly (<25 MiB) binary assets.
-  const parts=['./hoberglow/model.part-00.bin','./hoberglow/model.part-01.bin','./hoberglow/model.part-02.bin'];
+  // Original lossless gzip-wrapped GLB, no proxy model or manual uploads.
+  // GitHub Pages first; two public HTTPS mirrors are automatic fallbacks.
+  const filenames=['model.part-00.bin','model.part-01.bin','model.part-02.bin'];
+  const expectedSizes=[18899124,18899124,18899125];
+  const sources=[
+    {label:'GitHub Pages',base:'./hoberglow/',suffix:'?v=080702f8ad9f674376d7bccbd9344bb91c3fc6aa'},
+    {label:'GitHub raw',base:'https://raw.githubusercontent.com/Adele0302/hoberglow-parametric-mechanism-fea/main/hoberglow/',suffix:''},
+    {label:'jsDelivr',base:'https://cdn.jsdelivr.net/gh/Adele0302/hoberglow-parametric-mechanism-fea@080702f8ad9f674376d7bccbd9344bb91c3fc6aa/hoberglow/',suffix:''}
+  ];
+  async function getOriginalPart(i){
+    const errors=[];
+    for(const source of sources){
+      const controller=new AbortController();
+      const timeout=setTimeout(()=>controller.abort(),65000);
+      try{
+        const response=await fetch(source.base+filenames[i]+source.suffix,{signal:controller.signal,mode:'cors'});
+        if(!response.ok)throw Error('HTTP '+response.status);
+        const bytes=new Uint8Array(await response.arrayBuffer());
+        if(bytes.byteLength!==expectedSizes[i])throw Error('Unexpected length '+bytes.byteLength);
+        if(i===0&&(bytes[0]!==31||bytes[1]!==139))throw Error('Invalid gzip header');
+        if(source.label!=='GitHub Pages')console.info('HoberGlow model loaded from '+source.label,filenames[i]);
+        return bytes;
+      }catch(error){
+        errors.push(source.label+': '+(error?.message||String(error)));
+      }finally{clearTimeout(timeout)}
+    }
+    throw Error('Unable to load '+filenames[i]+' from any public source. '+errors.join('; '));
+  }
   const buffers=[];
-  for(let i=0;i<parts.length;i++){
-    status.textContent='Loading original 3D lamp… '+Math.round((i/parts.length)*100)+'%';
-    const resp=await fetch(parts[i],{cache:'force-cache'});
-    if(!resp.ok)throw Error('A required model file is missing ('+parts[i]+', HTTP '+resp.status+').');
-    buffers.push(new Uint8Array(await resp.arrayBuffer()));
+  for(let i=0;i<filenames.length;i++){
+    status.textContent='Loading original 3D lamp… '+Math.round((i/filenames.length)*100)+'%';
+    buffers.push(await getOriginalPart(i));
   }
   const total=buffers.reduce((n,x)=>n+x.byteLength,0);
   const bytes=new Uint8Array(total);let offset=0;
-  for(const buf of buffers){bytes.set(buf,offset);offset+=buf.byteLength}
-  if(bytes.length<1000000||bytes[0]!==31||bytes[1]!==139)throw Error('Model file is missing or corrupt.');
-  if(!('DecompressionStream' in window))throw Error('Please use an up-to-date Safari or Chrome browser that supports gzip decompression.');
+  for(const part of buffers){bytes.set(part,offset);offset+=part.byteLength}
+  if(bytes.byteLength!==56697373||bytes[0]!==31||bytes[1]!==139)throw Error('The original model is incomplete or corrupt.');
+  if(!('DecompressionStream' in window))throw Error('This browser does not support gzip decompression. Use a current Safari, Edge or Chrome.');
   window.HOBER_GZIP=bytes;
   status.textContent='Building the original 3D mechanism…';
   startEngine();
- }catch(e){console.error('HoberGlow public 3D asset loading:',e);status.textContent='';document.getElementById('fallback').hidden=false;document.getElementById('fallback-info').textContent='Original 3D model resource unavailable on the public site. You can still run the original transformation by choosing model-data.js from your private viewer.'}
+ }catch(e){console.error('HoberGlow public 3D asset loading:',e);status.textContent='';document.getElementById('fallback').hidden=false;document.getElementById('fallback-info').textContent='Automatic model download failed. Please press Retry; if the problem persists, check your connection or try a different network. Details: '+(e?.message||String(e))}
 })();
 </script>
 </body>
