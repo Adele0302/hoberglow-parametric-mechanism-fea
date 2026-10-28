@@ -20,9 +20,9 @@ The source application retains:
 - calibrated radial scissor-linkage motion, petal closure and associated cable updates;
 - interactive OrbitControls camera, **Play / Pause**, **Open ↔ Closed** slider and **Record** interface.
 
-**Deployment status:** The original HoberGlow HTML and animation engine are deployed, now with a touch-friendly iPad interface and a visible **“仅供非商业研究与作品集展示 · 禁止商业用途 / Non-commercial use only”** notice. The page now automatically looks for TWO optimized original-model files, `hoberglow/model.part-00.bin` and `hoberglow/model.part-01.bin`. **As long as these two large model assets have not yet been committed, the public page continues to offer local selection of `model-data.js` as a fallback, rather than falsely claiming the 3D has loaded.** The files together comprise 29,505,017 bytes and retain the original mesh hierarchy and vertex positions. The project owner confirmed public non-commercial portfolio display authorization; that permission does not authorize third-party commercial reuse.
+**Deployment status:** The original HoberGlow HTML and animation engine are deployed, now with a touch-friendly iPad interface and a visible **“仅供非商业研究与作品集展示 · 禁止商业用途 / Non-commercial use only”** notice. The public page automatically looks for THREE losslessly split original-model files: `hoberglow/model.part-00.bin`, `hoberglow/model.part-01.bin`, and `hoberglow/model.part-02.bin` (18,899,124; 18,899,124; and 18,899,125 bytes). **Until these three files are committed to `main`, the public page cannot load the original 3D model automatically.** The existing local-only `model-data.js` fallback remains available. All three files recombine into the original 56,697,373-byte gzip-wrapped GLB, preserving the exact mesh geometry and object hierarchy. The project owner confirmed public non-commercial portfolio display authorization; that permission does not authorize third-party commercial reuse.
 
-A separate complete web-package ZIP contains the ready-to-deploy tablet-responsive site, original motion runtime, five project renders and the two optimized model binary parts, each smaller than GitHub's browser-upload size limit. The public app runtime itself does not grant permission for commercial redistribution of the model.
+A separate original-model release ZIP contains the three unmodified gzip data parts, each smaller than GitHub's browser-upload size limit. Upload all three into `hoberglow/` on the default `main` branch. The existing HTML and bundled animation engine then provide interactive Play/Pause, Open/Closed and touch controls without a visitor login. The public app runtime itself does not grant permission for commercial redistribution of the model.
 
 ### Visual research narrative — actual project images
 
@@ -43,7 +43,9 @@ A separate complete web-package ZIP contains the ready-to-deploy tablet-responsi
 ## Important intellectual-property notice
 
 > **The original product appearance and production 3D model were purchased by
-> the sponsoring company and are not included in this repository.**
+> the sponsoring company. The repository owner has confirmed authorization
+> for public portfolio display and distribution of the HoberGlow model; this
+> does not grant third parties commercial-use or reuse rights.**
 
 The public Grasshopper definition contains the independently developed
 parametric workflow, named input interfaces, motion logic, optical analysis and
@@ -58,8 +60,8 @@ rights to the company's proprietary product design or production model.
 
 - `grasshopper/HoberGlow_Public_Framework.ghx` — English-labelled public
   definition with proprietary geometry references cleared.
-- `hoberglow/app.js` — the unmodified bundled Three.js original transformation runtime; proprietary model data is **not** included.
-- `index.html` — the original page interface with a local-only private model picker.
+- `hoberglow/app.js` — original bundled Three.js transformation runtime with support for directly loading the original compressed model data.
+- `index.html` — tablet-responsive original interactive viewer; automatically loads the public three-part model when files are present, with a local-only model picker as a backup.
 - `assets/` — public research screenshots and five optimized editorial renders, **not** production CAD.
 - `LICENSE.md` — limited permission for the author-owned framework and an
   explicit exclusion for company-owned assets.
