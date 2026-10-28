@@ -186,10 +186,57 @@ body::after{content:"";position:fixed;inset:1.2rem;z-index:1;border:1px solid rg
 @media(prefers-reduced-motion:reduce){
   .loading-screen,#load-fill{transition:none}
 }
+
+/* Light-path overlay: deliberately schematic and view-tracked, not ray tracing. */
+.light-paths-overlay{position:fixed;inset:0;width:100%;height:100%;z-index:2;
+  pointer-events:none;overflow:hidden;opacity:0;transition:opacity .28s ease}
+.light-paths-overlay.is-visible{opacity:1}
+.lp-incident{fill:none;stroke:#f0c991;stroke-width:1.05;stroke-opacity:.78;stroke-dasharray:4 5}
+.lp-incident-glow{fill:none;stroke:#f7c78a;stroke-width:4;stroke-opacity:.18;filter:url(#lp-glow)}
+.lp-outgoing{fill:none;stroke:#fff0ce;stroke-width:1.35;stroke-opacity:.92}
+.lp-outgoing-glow{fill:none;stroke:#fff0ce;stroke-width:6;stroke-opacity:.23;filter:url(#lp-glow)}
+.lp-intersection-glow{fill:#ffcf85;fill-opacity:.3;filter:url(#lp-glow)}
+.lp-intersection{fill:#fff7db;stroke:#e4b475;stroke-width:.75}
+.lp-source{fill:#ffd7a0;opacity:.95}
+.light-path-note{position:fixed;z-index:3;right:var(--side);top:calc(46% + 95px);
+  text-align:right;pointer-events:none;max-width:210px;border-right:1px solid rgba(240,200,143,.45);padding-right:13px}
+.light-path-note[hidden]{display:none}
+.light-path-note strong{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:#f0d1ab;font-weight:600}
+.light-path-note span{display:block;margin-top:8px;color:#9eafc0;font-size:10px;line-height:1.6}
+#light-path-toggle[aria-pressed="true"]{border-color:rgba(230,184,124,.58);color:#f5d5a6;
+  background:rgba(218,165,94,.09)}
+#light-path-toggle[aria-pressed="true"]::before{content:"";display:inline-block;width:6px;height:6px;
+  background:#eab97c;box-shadow:0 0 8px #eab97c66;border-radius:50%;margin-right:7px;vertical-align:2px}
+#light-path-toggle:disabled{opacity:.45}
+.record .light-paths-overlay,.record .light-path-note{display:none}
+@media(max-width:1000px){.light-path-note{top:auto;bottom:calc(224px + env(safe-area-inset-bottom))}}
+@media(max-width:740px){
+  .light-path-note{top:auto;bottom:calc(205px + env(safe-area-inset-bottom));max-width:145px}
+  .light-path-note strong{font-size:9px}.light-path-note span{font-size:9px}
+  #light-path-toggle{min-width:66px}
+}
+@media(max-width:390px){.dock-main{gap:5px}#light-path-toggle{min-width:61px}}
+@media(orientation:landscape) and (max-height:560px){.light-path-note{display:none}}
+@media(prefers-reduced-motion:reduce){.light-paths-overlay{transition:none}}
+
 </style>
 </head>
 <body>
 <div id="view" aria-label="Interactive original HoberGlow 3D lamp. Drag to rotate and pinch to zoom."></div>
+<svg id="light-paths-svg" class="light-paths-overlay" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <filter id="lp-glow" x="-150%" y="-150%" width="400%" height="400%">
+      <feGaussianBlur stdDeviation="2.6"/>
+    </filter>
+    <marker id="lp-arrow" markerWidth="8" markerHeight="8" refX="6.5" refY="3.5"
+      orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L7,3.5 L0,7" fill="none" stroke="#fff0ce" stroke-width="1.25"
+        stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <g id="lp-rays"></g>
+</svg>
 <header class="topbar">
   <div class="brand">
     <div class="brand-mark" aria-hidden="true"></div>
@@ -214,6 +261,10 @@ body::after{content:"";position:fixed;inset:1.2rem;z-index:1;border:1px solid rg
   <div class="guide-rule" aria-hidden="true"></div>
   <p>Slide to transform</p>
 </aside>
+<div id="light-path-note" class="light-path-note" hidden>
+  <strong>Light-path study</strong>
+  <span>Dashed: incident direction<br>Solid: redirected direction<br>Conceptual only · not ray traced</span>
+</div>
 <footer class="dock" aria-label="HoberGlow transformation controls">
   <div class="dock-head">
     <span class="eyebrow">01 — Mechanism control</span>
@@ -225,6 +276,7 @@ body::after{content:"";position:fixed;inset:1.2rem;z-index:1;border:1px solid rg
       <div class="slider-labels"><label for="pull">Open</label><output id="motion-value" for="pull">00%</output><label for="pull">Closed</label></div>
       <input id="pull" type="range" disabled min="0" max="1" value="0" step=".001" aria-label="HoberGlow transformation from open to closed">
     </div>
+    <button id="light-path-toggle" class="control-button" type="button" aria-label="Toggle conceptual light-path diagram" aria-pressed="true" disabled>Rays on</button>
     <button id="record" class="control-button" type="button" title="Hide interface (press Esc to exit)" aria-label="Focus on the lamp without controls">Focus</button>
   </div>
 </footer>
@@ -410,5 +462,6 @@ body::after{content:"";position:fixed;inset:1.2rem;z-index:1;border:1px solid rg
   }
 })();
 </script>
+<script defer src="./hoberglow/light-paths.js?v=20261028-optical-schematic"></script>
 </body>
 </html>
