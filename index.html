@@ -4,109 +4,410 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#253346">
-<meta name="description" content="HoberGlow original transformable kinetic light — interactive 3D mechanism by Shuofei Zan. Non-commercial research and portfolio showcase.">
-<title>HoberGlow — Interactive Kinetic Light | Shuofei Zan</title>
+<meta name="description" content="HoberGlow — explore Shuofei Zan's original kinetic light in an interactive 3D experience. Rotate and transform the full mechanism. Non-commercial portfolio demonstration.">
+<title>HoberGlow — Light in Motion | Shuofei Zan</title>
 <style>
-:root{color-scheme:dark;--fg:#edf2f9;--muted:#a3b4c8;--bar:#172333e8;--accent:#e0cdb3}
+:root{
+  color-scheme:dark;
+  --ink:#f8f2e9;--soft:#d9deea;--muted:#a8b5c4;--gold:#e8bc85;
+  --gold-dim:#b79268;--navy:#253346;--glass:rgba(21,31,45,.82);
+  --stroke:rgba(229,231,237,.18);--panel-shadow:0 20px 64px rgba(5,11,20,.33);
+  --side:clamp(20px,4.7vw,84px);
+}
 *{box-sizing:border-box}
-html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#253346;color:var(--fg);font:14px/1.45 system-ui,-apple-system,Segoe UI,Arial,sans-serif;-webkit-text-size-adjust:100%}
-#view{position:fixed;inset:0;touch-action:none}#view canvas{width:100%;height:100%;display:block;touch-action:none}
-.header{position:fixed;top:max(19px,env(safe-area-inset-top));left:max(24px,env(safe-area-inset-left));right:24px;z-index:3;display:flex;flex-wrap:wrap;align-items:baseline;gap:14px;pointer-events:none;text-shadow:0 2px 12px #07121c80}
-.header strong{font-size:23px;font-weight:500;letter-spacing:-.04em}.header span{color:var(--muted);font-size:12px}
-#status{position:fixed;left:50%;top:47%;transform:translate(-50%,-50%);width:min(90vw,580px);z-index:2;text-align:center;line-height:1.7;color:#d1dcea;pointer-events:none;text-shadow:0 2px 10px #0004;font-size:clamp(14px,1.3vw,17px)}
-.controller{position:fixed;left:50%;bottom:calc(53px + env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;align-items:center;gap:16px;padding:12px 18px;max-width:calc(100vw - 24px);z-index:4;background:var(--bar);border:1px solid #adbbca22;border-radius:13px;box-shadow:0 9px 36px #07131f70;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
-button{border:0;border-radius:7px;color:var(--fg);background:#ffffff12;min-width:65px;min-height:42px;padding:0 14px;font-size:14px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
-button:hover,button:focus-visible{background:#ffffff28;outline:1px solid #e0cdb388}button:disabled{opacity:.35;cursor:wait}
-.controller label{font-size:12px;color:#aab9ca;white-space:nowrap}
-#pull{width:clamp(140px,26vw,320px);height:38px;margin:0;accent-color:var(--accent);cursor:pointer;touch-action:none}
-#pull::-webkit-slider-thumb{width:24px;height:24px}
-.noncommercial{position:fixed;bottom:max(15px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);z-index:2;color:#cbd8e7cf;letter-spacing:.03em;text-align:center;font-size:11px;white-space:normal;max-width:94vw;text-shadow:0 2px 8px #101a2988;pointer-events:none}
-.touch-tip{position:fixed;bottom:calc(135px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);pointer-events:none;text-align:center;white-space:nowrap;color:#bdcbdacc;font-size:11px;transition:opacity .5s}
-.record .header,.record .controller,.record .touch-tip{display:none}
-@media (pointer:coarse){button{min-height:48px;min-width:76px;font-size:15px}#pull{height:48px;min-width:140px}}
-@media (max-width:740px){.header{top:calc(13px + env(safe-area-inset-top));left:16px}.header strong{font-size:20px}.header span{font-size:11px}.controller{width:calc(100vw - 18px);left:9px;transform:none;gap:8px;padding:9px 9px;bottom:calc(50px + env(safe-area-inset-bottom));border-radius:12px}.controller label{font-size:10px}button{min-width:58px;min-height:46px;padding:0 8px}#pull{min-width:65px;width:auto;flex:1}.touch-tip{bottom:calc(118px + env(safe-area-inset-bottom));font-size:10px}.noncommercial{bottom:calc(13px + env(safe-area-inset-bottom));font-size:10px}}
-@media (max-width:490px){.controller{gap:5px}.controller label{font-size:9px}.controller button{font-size:12px;min-width:46px;padding:0 7px}.header span{display:block;width:100%;margin-top:-10px}.noncommercial{font-size:9px}}
-@media (orientation:landscape) and (max-height:540px){.header{top:calc(7px + env(safe-area-inset-top));left:13px}.header strong{font-size:17px}.controller{bottom:calc(27px + env(safe-area-inset-bottom));padding:5px 11px}.touch-tip{bottom:calc(98px + env(safe-area-inset-bottom))}.noncommercial{bottom:calc(6px + env(safe-area-inset-bottom));font-size:9px}}
-@media(prefers-reduced-motion:reduce){.touch-tip{transition:none}}
-
-.fallback{position:fixed;inset:0;z-index:5;display:grid;place-items:center;padding:18px;background:linear-gradient(0deg,#152234f2,#152234bb),url('./assets/editorial/overview.webp') center/cover no-repeat}
-.fallback[hidden]{display:none}.fallback-panel{width:min(500px,100%);padding:34px 30px;border:1px solid #ffffff34;border-radius:15px;background:#172333ee;text-align:center;box-shadow:0 20px 65px #08111db8}
-.fallback-panel h2{font-size:clamp(34px,6vw,56px);font-weight:500;margin:2px 0 16px;letter-spacing:-.04em}.fallback-panel p{font-size:13px;line-height:1.8;color:#c7d3e3}
-.fallback-panel img{display:block;width:100%;aspect-ratio:16/8;object-fit:contain;margin:15px auto}.fallback-panel label{display:inline-block;padding:13px 18px;background:#dfceb7;color:#192434;cursor:pointer;border-radius:7px;font-weight:700;font-size:14px;margin-top:9px}.fallback-panel input{position:absolute;width:1px;height:1px;opacity:0}.fallback-panel small{display:block;margin-top:17px;color:#a2b1c4;line-height:1.6}
-.fallback-panel button{display:inline-block;margin-top:9px;min-height:46px;background:#dfceb7;color:#192434;font-size:14px;padding:13px 20px}.fallback-panel button:hover,.fallback-panel button:focus-visible{background:#eadcc9;outline:2px solid #fff9}
-@media(max-width:740px){.fallback-panel{padding:22px 18px}.fallback-panel img{max-height:125px}}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--navy);color:var(--ink);
+  font-family:Inter,"Helvetica Neue",Arial,"Segoe UI",sans-serif;-webkit-text-size-adjust:100%}
+button,input{font:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:5px}
+#view{position:fixed;inset:0;z-index:0;touch-action:none}
+#view canvas{display:block;width:100%;height:100%;touch-action:none}
+body::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(90deg,rgba(9,20,33,.47) 0%,rgba(15,25,39,.12) 36%,transparent 64%),
+  linear-gradient(180deg,rgba(7,17,31,.27),transparent 26%,transparent 67%,rgba(9,20,32,.48))}
+body::after{content:"";position:fixed;inset:1.2rem;z-index:1;border:1px solid rgba(244,242,238,.08);pointer-events:none}
+.eyebrow{font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:600}
+.topbar{position:fixed;z-index:7;top:max(31px,env(safe-area-inset-top));left:var(--side);right:var(--side);
+  display:flex;align-items:flex-start;justify-content:space-between;gap:20px;pointer-events:none}
+.brand{display:flex;align-items:center;gap:15px}
+.brand-mark{width:39px;height:39px;position:relative;border:1px solid rgba(236,199,156,.78);border-radius:50%;flex:0 0 auto}
+.brand-mark::before{content:"";position:absolute;inset:7px;border:1px solid rgba(236,199,156,.58);border-radius:50%}
+.brand-mark::after{content:"";position:absolute;left:50%;top:50%;width:7px;height:7px;background:var(--gold);border-radius:50%;transform:translate(-50%,-50%)}
+.brand-name{font-weight:600;font-size:13px;letter-spacing:.19em;text-transform:uppercase}
+.brand-subtitle{font-size:10px;color:var(--muted);letter-spacing:.12em;margin-top:5px;text-transform:uppercase}
+.top-right{display:flex;align-items:center;gap:22px;margin-top:7px;color:var(--soft);font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+.live-indicator{display:flex;gap:8px;align-items:center;color:var(--gold)}
+.live-indicator::before{content:"";width:5px;height:5px;flex:0 0 auto;border-radius:50%;background:var(--gold);box-shadow:0 0 10px rgba(232,188,133,.6)}
+.top-divider{width:1px;height:16px;background:var(--stroke)}
+.story{position:fixed;z-index:3;left:var(--side);top:48%;transform:translateY(-45%);max-width:290px;pointer-events:none}
+.story .line{width:40px;height:1px;background:var(--gold);margin-bottom:22px}
+.story .eyebrow{color:var(--gold)}
+.story h1{font-family:Georgia,"Times New Roman",serif;font-weight:400;line-height:1.01;
+  font-size:clamp(39px,4.6vw,70px);letter-spacing:-.065em;margin:18px 0 23px}
+.story h1 em{color:#e2be95;font-weight:400}
+.story p{max-width:240px;line-height:1.75;color:#c6d0db;font-size:12px;letter-spacing:.012em;margin:0}
+.story .project-tag{margin-top:30px;display:flex;align-items:center;gap:11px;font-size:10px;color:#91a1b4;letter-spacing:.18em}
+.story .project-tag::before{content:"";width:22px;height:1px;background:#8799ac}
+.view-guide{position:fixed;z-index:3;right:var(--side);top:46%;text-align:right;pointer-events:none;max-width:145px}
+.view-guide .eyebrow{color:var(--gold);margin-bottom:11px}
+.view-guide p{margin:0;color:var(--muted);font-size:11px;line-height:1.8}
+.view-guide .guide-rule{height:1px;background:rgba(225,230,238,.18);margin:18px 0 14px auto;width:50px}
+.dock{position:fixed;z-index:8;left:50%;bottom:calc(49px + env(safe-area-inset-bottom));transform:translateX(-50%);
+  width:min(660px,calc(100vw - 38px));padding:16px 18px 14px;border:1px solid rgba(245,233,218,.24);
+  border-radius:16px;background:var(--glass);box-shadow:var(--panel-shadow);
+  -webkit-backdrop-filter:blur(28px) saturate(1.3);backdrop-filter:blur(28px) saturate(1.3)}
+.dock-head{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:0 2px 13px;
+  border-bottom:1px solid rgba(236,238,241,.13)}
+.dock-head .eyebrow{color:#bccad6;font-size:9px;letter-spacing:.2em}
+#motion-label{font-size:10px;color:var(--gold);font-weight:600;letter-spacing:.13em;text-transform:uppercase}
+.dock-main{display:flex;align-items:center;gap:18px;padding-top:14px}
+.control-button{min-height:42px;border-radius:8px;border:1px solid rgba(235,225,211,.2);
+  background:rgba(255,255,255,.055);color:var(--ink);padding:0 17px;font-size:12px;font-weight:600;white-space:nowrap}
+.control-button:hover{background:rgba(255,255,255,.15)}
+.control-button:disabled{opacity:.44;cursor:wait}
+#play{min-width:95px;background:var(--gold);border-color:var(--gold);color:#172538}
+#play:hover:not(:disabled){background:#f1cda1}
+#play::before{content:"▶";font-size:10px;margin-right:9px;display:inline-block}
+#play.is-playing::before{content:"Ⅱ";font-size:11px}
+#record{min-width:74px}
+.slider-zone{flex:1;min-width:100px}
+.slider-labels{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#bbc8d5;
+  font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}
+#motion-value{font-size:11px;letter-spacing:.07em;color:#ecd1ac;font-variant-numeric:tabular-nums}
+#pull{--pct:0%;display:block;width:100%;height:22px;margin:0;appearance:none;-webkit-appearance:none;
+  background:transparent;cursor:pointer;touch-action:pan-x}
+#pull::-webkit-slider-runnable-track{height:4px;border-radius:99px;background:linear-gradient(90deg,var(--gold) 0%,var(--gold) var(--pct),rgba(232,238,245,.27) var(--pct),rgba(232,238,245,.27) 100%)}
+#pull::-moz-range-track{height:4px;border-radius:99px;background:rgba(232,238,245,.27)}
+#pull::-moz-range-progress{height:4px;border-radius:99px;background:var(--gold)}
+#pull::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:20px;height:20px;border:4px solid #e7b982;
+  border-radius:50%;margin-top:-8px;background:#f8eee2;box-shadow:0 1px 7px #040d1899}
+#pull::-moz-range-thumb{width:13px;height:13px;border:4px solid #e7b982;border-radius:50%;background:#f8eee2}
+#pull:disabled{opacity:.5;cursor:wait}
+.bottomline{position:fixed;left:var(--side);right:var(--side);bottom:max(15px,env(safe-area-inset-bottom));
+  z-index:6;display:flex;justify-content:space-between;gap:15px;color:#b6c2cf;font-size:10px;
+  letter-spacing:.045em;pointer-events:none}
+.bottomline .noncommercial{color:#d3dae5}
+.interaction-note{display:flex;align-items:center;gap:10px}
+.interaction-note::before{content:"";width:17px;height:1px;background:var(--gold)}
+.record-hint{display:none;position:fixed;z-index:5;top:26px;right:var(--side);
+  color:var(--soft);font-size:11px;letter-spacing:.1em;pointer-events:none}
+.record .topbar,.record .story,.record .view-guide,.record .dock,.record .interaction-note{display:none}
+.record .record-hint{display:block}
+#status{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.loading-screen{position:fixed;inset:0;z-index:20;display:grid;grid-template-columns:52% 48%;
+  background:#111c2a;transition:opacity .7s ease,visibility .7s ease}
+.loading-screen.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+.loading-copy{padding:clamp(28px,5.6vw,96px);display:flex;flex-direction:column;justify-content:space-between;
+  min-width:0;position:relative;z-index:1}
+.loading-brand{display:flex;align-items:center;gap:13px;letter-spacing:.2em;font-size:12px;font-weight:600;text-transform:uppercase}
+.loading-brand .brand-mark{width:32px;height:32px}
+.loading-brand .brand-mark::before{inset:6px}
+.loading-intro{margin:32px 0}
+.loading-intro .eyebrow{color:var(--gold)}
+.loading-intro h2{font-family:Georgia,"Times New Roman",serif;font-weight:400;line-height:1.06;
+  font-size:clamp(54px,6vw,102px);letter-spacing:-.07em;margin:22px 0 18px}
+.loading-intro h2 em{color:var(--gold);font-weight:400}
+.loading-intro p{font-size:13px;line-height:1.9;color:#aebcce;max-width:355px;margin:0}
+.loading-bottom{width:min(100%,430px)}
+.loading-metric{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:12px}
+#load-phase{font-size:10px;letter-spacing:.14em;color:#e6d5be;text-transform:uppercase;font-weight:600}
+#load-percent{font-family:Georgia,"Times New Roman",serif;font-size:32px;color:#f8efe3;
+  font-variant-numeric:tabular-nums;line-height:1}
+.load-track{height:3px;width:100%;background:rgba(237,241,245,.16);border-radius:8px;overflow:hidden}
+#load-fill{height:100%;width:0%;background:var(--gold);border-radius:8px;transition:width .2s linear}
+.loading-footnote{font-size:10px;line-height:1.8;color:#99aabd;letter-spacing:.04em;margin:13px 0 0}
+.loading-visual{position:relative;overflow:hidden;background:#233446}
+.loading-visual::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(17,28,42,.15),transparent 30%),linear-gradient(0deg,rgba(8,18,30,.7),transparent 45%)}
+.loading-visual img{width:100%;height:100%;object-fit:cover;object-position:center}
+.visual-top{position:absolute;top:clamp(25px,5vw,76px);left:clamp(24px,4vw,66px);z-index:1;
+  font-size:10px;letter-spacing:.18em;color:#fff2e0;text-transform:uppercase}
+.visual-caption{position:absolute;left:clamp(25px,4vw,66px);right:20px;bottom:clamp(32px,5.2vw,80px);
+  z-index:1;display:flex;gap:13px;align-items:baseline;color:#ebdfd0}
+.visual-caption b{font-family:Georgia,serif;font-size:38px;font-weight:400;line-height:1}
+.visual-caption span{font-size:11px;letter-spacing:.1em;line-height:1.5}
+.fallback{position:fixed;inset:0;z-index:25;display:grid;place-items:center;padding:22px;
+  background:linear-gradient(90deg,rgba(14,25,37,.94),rgba(14,25,37,.86)),
+  url('./assets/editorial/overview.webp') center/cover no-repeat}
+.fallback[hidden]{display:none}
+.fallback-panel{width:min(460px,100%);border:1px solid rgba(238,231,220,.2);
+  background:rgba(22,33,47,.94);box-shadow:var(--panel-shadow);padding:32px;border-radius:15px}
+.fallback-panel .eyebrow{color:var(--gold)}
+.fallback-panel h2{font-family:Georgia,serif;font-weight:400;letter-spacing:-.05em;font-size:42px;margin:13px 0}
+.fallback-panel p{color:#bdcbd9;font-size:13px;line-height:1.8;overflow-wrap:anywhere;max-height:190px;overflow:auto}
+.fallback-panel button{margin-top:13px;border:0;background:var(--gold);color:#1b2939;font-size:12px;
+  padding:14px 20px;border-radius:8px;font-weight:700}
+.fallback-panel small{display:block;font-size:10px;line-height:1.7;color:#8e9fb1;margin-top:15px}
+@media(max-width:1000px){
+  .story{max-width:235px;top:39%}.story h1{font-size:clamp(38px,5vw,55px)}.story p{max-width:210px}
+  .view-guide{top:37%}.view-guide p{font-size:10px}
+}
+@media(max-width:740px){
+  :root{--side:20px}
+  body::after{inset:10px}
+  .topbar{top:calc(21px + env(safe-area-inset-top))}
+  .brand-mark{width:33px;height:33px}.brand-mark::before{inset:6px}.brand-name{font-size:12px}
+  .brand-subtitle{font-size:9px}
+  .top-right{gap:8px;margin-top:10px}.top-right .top-divider,.top-right .author-name{display:none}
+  .top-right .live-indicator{font-size:9px}
+  .story{top:128px;transform:none;max-width:175px}
+  .story .line,.story p,.story .project-tag{display:none}
+  .story .eyebrow{font-size:9px}.story h1{font-size:35px;margin:12px 0}
+  .view-guide{top:auto;bottom:calc(208px + env(safe-area-inset-bottom));right:var(--side)}
+  .view-guide .eyebrow,.view-guide .guide-rule{display:none}.view-guide p{font-size:9px;line-height:1.5}
+  .dock{bottom:calc(66px + env(safe-area-inset-bottom));padding:13px 13px 12px}
+  .dock-main{gap:9px}.control-button{padding:0 12px;min-height:43px;font-size:11px}
+  #play{min-width:72px}#record{min-width:61px}
+  .bottomline{flex-direction:column;align-items:center;gap:5px;text-align:center;font-size:9px;bottom:calc(12px + env(safe-area-inset-bottom))}
+  .interaction-note{display:none}
+  .loading-screen{grid-template-columns:1fr;grid-template-rows:35% 65%}
+  .loading-visual{grid-row:1}.loading-copy{grid-row:2;padding:22px 25px 27px}
+  .loading-brand{font-size:10px}.loading-intro{margin:12px 0 16px}
+  .loading-intro h2{font-size:clamp(43px,10vw,64px);margin:12px 0 11px}
+  .loading-intro p{font-size:11px;line-height:1.6}
+  .loading-footnote{font-size:9px}
+  .visual-top{left:24px;top:20px}.visual-caption{bottom:18px;left:24px}
+  .visual-caption b{font-size:26px}.visual-caption span{font-size:10px}
+}
+@media(max-width:390px){
+  .dock{width:calc(100vw - 20px);padding:12px 10px}.dock-main{gap:6px}
+  .control-button{padding:0 9px;font-size:10px}#play{min-width:66px}#record{min-width:52px}
+  .slider-labels{font-size:8px}.loading-intro h2{font-size:42px}
+}
+@media(orientation:landscape) and (max-height:560px){
+  .topbar{top:15px}.story{top:80px;transform:none}.story p,.view-guide{display:none}
+  .story h1{font-size:38px;margin:10px 0}.story .project-tag{display:none}
+  .dock{bottom:calc(36px + env(safe-area-inset-bottom));padding:8px 14px}
+  .dock-head{padding-bottom:7px}.dock-main{padding-top:7px}
+  .bottomline{bottom:8px}.loading-copy{padding:20px 32px}
+  .loading-intro h2{font-size:clamp(36px,5vw,57px)}
+  .loading-intro p{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .loading-screen,#load-fill{transition:none}
+}
 </style>
 </head>
 <body>
-<div id="view" aria-label="Original interactive HoberGlow 3D lamp viewer. Drag one finger to rotate; pinch two fingers to zoom."></div>
-<header class="header"><strong>HoberGlow</strong><span>Shuofei Zan / Kinetic light research</span></header>
-<p id="status" role="status" aria-live="polite">Loading original 3D lamp…</p>
-<footer class="controller" aria-label="Lamp transformation controls">
-<button id="play" disabled type="button" aria-label="Play or pause lamp transformation">Play</button>
-<label for="pull">Open</label><input id="pull" disabled type="range" min="0" max="1" step=".001" value="0" aria-label="Lamp closure level"><label for="pull">Closed</label>
-<button id="record" type="button" aria-label="Toggle uncluttered record view">Record</button>
+<div id="view" aria-label="Interactive original HoberGlow 3D lamp. Drag to rotate and pinch to zoom."></div>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true"></div>
+    <div><div class="brand-name">HoberGlow</div><div class="brand-subtitle">Computational light study</div></div>
+  </div>
+  <div class="top-right">
+    <span class="author-name">SHUOFEI ZAN / 2026</span>
+    <span class="top-divider" aria-hidden="true"></span>
+    <span class="live-indicator">Interactive 3D</span>
+  </div>
+</header>
+<aside class="story" aria-label="About HoberGlow">
+  <div class="line" aria-hidden="true"></div>
+  <div class="eyebrow">01 / Kinetic Design</div>
+  <h1>Light in<br><em>motion.</em></h1>
+  <p>A transformable lighting study exploring the relationship between parametric geometry, articulated structures and movement.</p>
+  <div class="project-tag">FORM · STRUCTURE · KINEMATICS</div>
+</aside>
+<aside class="view-guide" aria-label="3D navigation help">
+  <div class="eyebrow">Explore the object</div>
+  <p>Drag to orbit<br>Scroll or pinch to zoom</p>
+  <div class="guide-rule" aria-hidden="true"></div>
+  <p>Slide to transform</p>
+</aside>
+<footer class="dock" aria-label="HoberGlow transformation controls">
+  <div class="dock-head">
+    <span class="eyebrow">01 — Mechanism control</span>
+    <output id="motion-label" aria-live="off">Fully open</output>
+  </div>
+  <div class="dock-main">
+    <button id="play" class="control-button" type="button" disabled aria-label="Play or pause the original HoberGlow motion">Play</button>
+    <div class="slider-zone">
+      <div class="slider-labels"><label for="pull">Open</label><output id="motion-value" for="pull">00%</output><label for="pull">Closed</label></div>
+      <input id="pull" type="range" disabled min="0" max="1" value="0" step=".001" aria-label="HoberGlow transformation from open to closed">
+    </div>
+    <button id="record" class="control-button" type="button" title="Hide interface (press Esc to exit)" aria-label="Focus on the lamp without controls">Focus</button>
+  </div>
 </footer>
-<div class="touch-tip" id="tip">Drag to rotate · Pinch to zoom · Slide to open / close</div>
-<div class="noncommercial">© 2026 Shuofei Zan · 仅供非商业研究与作品集展示 · 禁止商业用途 / Non-commercial use only.</div>
-<section id="fallback" class="fallback" hidden aria-label="Automatic 3D model loading problem">
-<div class="fallback-panel"><h2>HoberGlow</h2>
-<p id="fallback-info" role="alert">The original 3D model could not be downloaded. Please retry.</p>
-<img src="./assets/editorial/motion-states.webp" alt="HoberGlow original opening and closing sequence">
-<button id="retry-model" type="button">Retry automatic model loading</button>
-<small>No file upload, login or company authorization is required to view the public interactive model.</small>
-</div></section>
+<div class="bottomline">
+  <span class="interaction-note">ORBIT · ZOOM · TRANSFORM</span>
+  <span class="noncommercial">© 2026 Shuofei Zan · 非商业研究及作品集展示 · 禁止商业用途 / Non-commercial use only</span>
+</div>
+<div class="record-hint">PRESS ESC TO RESTORE INTERFACE</div>
+<p id="status" role="status" aria-live="polite">Loading original 3D lamp…</p>
+<section id="loading-screen" class="loading-screen" aria-label="Loading the original interactive 3D model">
+  <div class="loading-copy">
+    <div class="loading-brand"><span class="brand-mark" aria-hidden="true"></span>HoberGlow</div>
+    <div class="loading-intro">
+      <div class="eyebrow">KINETIC DESIGN / INTERACTIVE 3D</div>
+      <h2>Light in<br><em>motion.</em></h2>
+      <p>An original parametric lighting mechanism, presented as a fully interactive 3D experience.</p>
+    </div>
+    <div class="loading-bottom">
+      <div class="loading-metric"><span id="load-phase">Preparing original 3D model</span><strong id="load-percent">00%</strong></div>
+      <div class="load-track" role="progressbar" id="load-progress" aria-label="Model download progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="load-fill"></div></div>
+      <p class="loading-footnote">The complete model opens automatically. No account or file upload needed.</p>
+    </div>
+  </div>
+  <div class="loading-visual">
+    <img src="./assets/editorial/overview.webp" alt="Original HoberGlow kinetic lighting design visual" fetchpriority="high">
+    <span class="visual-top">ORIGINAL DESIGN VISUAL / 01</span>
+    <div class="visual-caption"><b>01</b><span>FORM, LIGHT<br>AND MOTION</span></div>
+  </div>
+</section>
+<section id="fallback" class="fallback" hidden aria-label="Automatic model loading issue">
+  <div class="fallback-panel">
+    <div class="eyebrow">HoberGlow / connection</div>
+    <h2>Let's try again.</h2>
+    <p id="fallback-info" role="alert">The model could not load over this connection. Retry to reconnect.</p>
+    <button id="retry-model" type="button">Retry 3D experience</button>
+    <small>The public model downloads automatically. You never need to upload files or sign in.</small>
+  </div>
+</section>
 <script>
 (async()=>{
- const status=document.getElementById('status');
- const controls=['play','pull'].map(x=>document.getElementById(x));
- let engineStarted=false;
- function startEngine(){if(engineStarted)return;engineStarted=true;const js=document.createElement('script');js.src='./hoberglow/app.js';js.onerror=()=>showError('3D viewer code failed to load.');js.onload=()=>{let checks=0;const poll=setInterval(()=>{if(window.__LAMP__?.loaded){clearInterval(poll);window.HOBER_GZIP=null;window.HOBER_MODEL=null;status.textContent='';document.getElementById('fallback').hidden=true;if(matchMedia('(pointer:coarse)').matches)setTimeout(()=>document.getElementById('tip').style.opacity='0',6500)}else if(++checks>120){clearInterval(poll);if(status.textContent.includes('Building'))showError('3D model initialization timed out. Try closing other tabs and reloading.') }},500)};document.body.append(js)}
- document.getElementById('retry-model').addEventListener('click',()=>location.reload());
- const showError=(message)=>{status.textContent=message;status.style.pointerEvents='auto'};
- if(!window.WebGLRenderingContext){showError('This browser does not support WebGL. Please open in Safari or Chrome with hardware acceleration.');return}
- try{
-  // Original lossless gzip-wrapped GLB, no proxy model or manual uploads.
-  // GitHub Pages first; two public HTTPS mirrors are automatic fallbacks.
-  const filenames=['model.part-00.bin','model.part-01.bin','model.part-02.bin'];
-  const expectedSizes=[18899124,18899124,18899125];
-  const sources=[
-    {label:'GitHub Pages',base:'./hoberglow/',suffix:'?v=080702f8ad9f674376d7bccbd9344bb91c3fc6aa'},
-    {label:'GitHub raw',base:'https://raw.githubusercontent.com/Adele0302/hoberglow-parametric-mechanism-fea/main/hoberglow/',suffix:''},
-    {label:'jsDelivr',base:'https://cdn.jsdelivr.net/gh/Adele0302/hoberglow-parametric-mechanism-fea@080702f8ad9f674376d7bccbd9344bb91c3fc6aa/hoberglow/',suffix:''}
-  ];
-  async function getOriginalPart(i){
-    const errors=[];
-    for(const source of sources){
-      const controller=new AbortController();
-      const timeout=setTimeout(()=>controller.abort(),65000);
-      try{
-        const response=await fetch(source.base+filenames[i]+source.suffix,{signal:controller.signal,mode:'cors'});
-        if(!response.ok)throw Error('HTTP '+response.status);
-        const bytes=new Uint8Array(await response.arrayBuffer());
-        if(bytes.byteLength!==expectedSizes[i])throw Error('Unexpected length '+bytes.byteLength);
-        if(i===0&&(bytes[0]!==31||bytes[1]!==139))throw Error('Invalid gzip header');
-        if(source.label!=='GitHub Pages')console.info('HoberGlow model loaded from '+source.label,filenames[i]);
-        return bytes;
-      }catch(error){
-        errors.push(source.label+': '+(error?.message||String(error)));
-      }finally{clearTimeout(timeout)}
+  const status=document.getElementById('status');
+  const loader=document.getElementById('loading-screen');
+  const fallback=document.getElementById('fallback');
+  const play=document.getElementById('play');
+  const slider=document.getElementById('pull');
+  const motionValue=document.getElementById('motion-value');
+  const motionLabel=document.getElementById('motion-label');
+  const progress=document.getElementById('load-progress');
+  const fill=document.getElementById('load-fill');
+  const phase=document.getElementById('load-phase');
+  const percent=document.getElementById('load-percent');
+  let engineStarted=false;
+  let lastValue=-1;
+  let runningTimer=null;
+
+  function updateReadout(){
+    const value=Math.max(0,Math.min(1,Number(slider.value)||0));
+    const amount=Math.round(value*100);
+    if(amount!==lastValue){
+      lastValue=amount;
+      slider.style.setProperty('--pct',amount+'%');
+      motionValue.textContent=String(amount).padStart(2,'0')+'%';
+      motionLabel.textContent=value<=.005?'Fully open':value>=.995?'Fully closed':'In transformation';
     }
-    throw Error('Unable to load '+filenames[i]+' from any public source. '+errors.join('; '));
+    play.classList.toggle('is-playing',play.textContent.trim().toLowerCase()==='pause');
   }
-  const buffers=[];
-  for(let i=0;i<filenames.length;i++){
-    status.textContent='Loading original 3D lamp… '+Math.round((i/filenames.length)*100)+'%';
-    buffers.push(await getOriginalPart(i));
+  slider.addEventListener('input',updateReadout);
+  document.getElementById('retry-model').addEventListener('click',()=>location.reload());
+  function setLoadingProgress(bytes,total){
+    const value=Math.min(100,Math.max(0,Math.floor(bytes/total*100)));
+    progress.setAttribute('aria-valuenow',String(value));
+    fill.style.width=value+'%';
+    percent.textContent=String(value).padStart(2,'0')+'%';
+    phase.textContent=value<100?'Downloading original geometry':'Assembling the 3D mechanism';
+    status.textContent=value<100?'Loading original 3D lamp… '+value+'%':'Building original 3D mechanism…';
   }
-  const total=buffers.reduce((n,x)=>n+x.byteLength,0);
-  const bytes=new Uint8Array(total);let offset=0;
-  for(const part of buffers){bytes.set(part,offset);offset+=part.byteLength}
-  if(bytes.byteLength!==56697373||bytes[0]!==31||bytes[1]!==139)throw Error('The original model is incomplete or corrupt.');
-  if(!('DecompressionStream' in window))throw Error('This browser does not support gzip decompression. Use a current Safari, Edge or Chrome.');
-  window.HOBER_GZIP=bytes;
-  status.textContent='Building the original 3D mechanism…';
-  startEngine();
- }catch(e){console.error('HoberGlow public 3D asset loading:',e);status.textContent='';document.getElementById('fallback').hidden=false;document.getElementById('fallback-info').textContent='Automatic model download failed. Please press Retry; if the problem persists, check your connection or try a different network. Details: '+(e?.message||String(e))}
+  function showError(message){
+    console.error('HoberGlow:',message);
+    status.textContent=message;
+    document.getElementById('fallback-info').textContent=message;
+    loader.classList.add('is-hidden');
+    fallback.hidden=false;
+  }
+  function finishLoading(){
+    status.textContent='';
+    loader.classList.add('is-hidden');
+    fallback.hidden=true;
+    window.HOBER_GZIP=null;
+    window.HOBER_MODEL=null;
+    updateReadout();
+    if(!runningTimer)runningTimer=setInterval(updateReadout,120);
+  }
+  function startEngine(){
+    if(engineStarted)return;
+    engineStarted=true;
+    const script=document.createElement('script');
+    script.src='./hoberglow/app.js';
+    script.onerror=()=>showError('The original 3D animation engine could not load. Please retry.');
+    script.onload=()=>{
+      let checks=0;
+      const poll=setInterval(()=>{
+        if(window.__LAMP__?.loaded){
+          clearInterval(poll);
+          finishLoading();
+        }else if(status.textContent.startsWith('Could not load model:')){
+          clearInterval(poll);
+          showError(status.textContent);
+        }else if(++checks>240){
+          clearInterval(poll);
+          showError('The original 3D model took too long to initialize. Try closing other tabs and retry.');
+        }
+      },500);
+    };
+    document.body.append(script);
+  }
+  if(!window.WebGLRenderingContext||!('DecompressionStream' in window)){
+    showError('This browser needs WebGL and gzip decompression to display the original lamp. Try an up-to-date Chrome, Edge or Safari.');
+    return;
+  }
+  try{
+    const filenames=['model.part-00.bin','model.part-01.bin','model.part-02.bin'];
+    const expectedSizes=[18899124,18899124,18899125];
+    const totalSize=56697373;
+    const sources=[
+      {label:'GitHub Pages',base:'./hoberglow/',suffix:'?v=080702f8ad9f674376d7bccbd9344bb91c3fc6aa'},
+      {label:'GitHub raw',base:'https://raw.githubusercontent.com/Adele0302/hoberglow-parametric-mechanism-fea/main/hoberglow/',suffix:''},
+      {label:'jsDelivr',base:'https://cdn.jsdelivr.net/gh/Adele0302/hoberglow-parametric-mechanism-fea@080702f8ad9f674376d7bccbd9344bb91c3fc6aa/hoberglow/',suffix:''}
+    ];
+    let completed=0;
+    async function fetchPart(index){
+      const errors=[];
+      for(const source of sources){
+        const controller=new AbortController();
+        const timeout=setTimeout(()=>controller.abort(),90000);
+        try{
+          const response=await fetch(source.base+filenames[index]+source.suffix,{mode:'cors',signal:controller.signal});
+          if(!response.ok)throw Error('HTTP '+response.status);
+          const result=new Uint8Array(expectedSizes[index]);
+          if(response.body&&typeof response.body.getReader==='function'){
+            const reader=response.body.getReader();
+            let offset=0;
+            while(true){
+              const chunk=await reader.read();
+              if(chunk.done)break;
+              if(offset+chunk.value.byteLength>result.byteLength)throw Error('Unexpected model size');
+              result.set(chunk.value,offset);
+              offset+=chunk.value.byteLength;
+              setLoadingProgress(completed+offset,totalSize);
+            }
+            if(offset!==expectedSizes[index])throw Error('Incomplete model part ('+offset+' bytes)');
+          }else{
+            const bytes=new Uint8Array(await response.arrayBuffer());
+            if(bytes.byteLength!==expectedSizes[index])throw Error('Incomplete model part');
+            result.set(bytes);
+            setLoadingProgress(completed+result.byteLength,totalSize);
+          }
+          if(index===0&&(result[0]!==31||result[1]!==139))throw Error('Invalid original model header');
+          if(source.label!=='GitHub Pages')console.info('HoberGlow model mirror:',source.label,filenames[index]);
+          return result;
+        }catch(error){
+          errors.push(source.label+': '+(error?.message||String(error)));
+          setLoadingProgress(completed,totalSize);
+        }finally{clearTimeout(timeout)}
+      }
+      throw Error('Could not download '+filenames[index]+'. '+errors.join('; '));
+    }
+    const parts=[];
+    for(let index=0;index<filenames.length;index++){
+      const part=await fetchPart(index);
+      parts.push(part);
+      completed+=part.byteLength;
+    }
+    const zipped=new Uint8Array(totalSize);
+    let offset=0;
+    for(const part of parts){zipped.set(part,offset);offset+=part.byteLength}
+    if(offset!==totalSize||zipped[0]!==31||zipped[1]!==139)throw Error('Model integrity verification failed');
+    window.HOBER_GZIP=zipped;
+    setLoadingProgress(totalSize,totalSize);
+    phase.textContent='Preparing interactive motion';
+    startEngine();
+  }catch(error){
+    showError('Automatic model loading failed. '+(error?.message||String(error)));
+  }
 })();
 </script>
 </body>
