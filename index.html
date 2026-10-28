@@ -65,8 +65,8 @@ button:hover,button:focus-visible{background:#ffffff28;outline:1px solid #e0cdb3
  const showError=(message)=>{status.textContent=message;status.style.pointerEvents='auto'};
  if(!window.WebGLRenderingContext){showError('This browser does not support WebGL. Please open in Safari or Chrome with hardware acceleration.');return}
  try{
-  // Original optimized GLB/gzip split into two GitHub-friendly (<25 MiB) binary assets.
-  const parts=['./hoberglow/model.part-00.bin','./hoberglow/model.part-01.bin'];
+  // Original lossless gzip-wrapped GLB, split into three GitHub-friendly (<25 MiB) binary assets.
+  const parts=['./hoberglow/model.part-00.bin','./hoberglow/model.part-01.bin','./hoberglow/model.part-02.bin'];
   const buffers=[];
   for(let i=0;i<parts.length;i++){
     status.textContent='Loading original 3D lamp… '+Math.round((i/parts.length)*100)+'%';
